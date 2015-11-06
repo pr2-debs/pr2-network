@@ -1,0 +1,4 @@
+Describes Setup and uses of PR2 internal Network.
+
+Changes for Indigo:
+- Removing ctr350 AP, using onboard Intel 7260
