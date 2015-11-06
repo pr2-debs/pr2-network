@@ -16,6 +16,9 @@
 10.69.0.12 c2-lan1
 10.68.0.92 c2-esms
 
+# The PR2 Nuc Head
+10.68.0.10 pr2-head
+
 # The wireless router
 10.68.0.5 wifi-router
 
