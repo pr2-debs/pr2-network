@@ -21,7 +21,9 @@ iface eth0 inet static
   metric 4
 
 # The wan interface
+auto wan0
 iface wan0 inet dhcp
+  dns-nameservers 8.8.8.8
   metric 3
 
 # The four lan interfaces
