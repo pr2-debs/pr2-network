@@ -55,9 +55,4 @@ SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="d0:50:99:??:??:?
 # ONBOARD WIFI (CLEARPATH ROBOTICS DISTRIBUTED) AP AND BRIDGE INTERFACES
 
 # PCI device 0x8086:0x08b1 (iwlwifi)
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="7c:5c:f8:??:??:?[13579bdf]", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="wlan*", NAME="wlan0"
-
-# PCI device 0x8086:0x08b1 (iwlwifi)
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="7c:5c:f8:??:??:?[02468ace]", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="wlan*", NAME="wlan1"
-
-
+SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="7c:5c:f8:??:??:?[02468ace]", ATTR{dev_id}=="0x0", ATTR{type}=="1", KERNEL=="wlan*", NAME="wlan0"
