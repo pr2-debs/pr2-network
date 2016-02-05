@@ -9,7 +9,9 @@ DEB_DIVERT_FILES_pr2-network += \
     /etc/dhcp3/dhclient.conf.pr2-network \
     /etc/network/interfaces.pr2-network \
     /etc/resolv.conf.pr2-network \
-	 /etc/init/failsafe.conf.pr2-network
+    /etc/init/failsafe.conf.pr2-network \
+    /etc/hostapd/hostapd.conf.pr2-network \
+    /etc/default/hostapd.pr2-network
 
 include /usr/share/cdbs/1/rules/debhelper.mk
 include /usr/share/cdbs/1/rules/config-package.mk
