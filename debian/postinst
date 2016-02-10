@@ -24,10 +24,16 @@ case "$1" in
     if [ -e /etc/init.d/ifplugd ]; then
       invoke-rc.d ifplugd stop || true
     fi
-    
+
     # We have added a rule, we should restart iptables.d to load it
     if [ -e /etc/init.d/iptables.d ]; then
       invoke-rc.d iptables.d restart || true
+    fi
+
+    if [ -e /etc/init.d/hostapd ]; then
+      invoke-rc.d hostapd restart || true
+    else
+      update-rc.d hostapd enable
     fi
 
     echo "Checking if robot can be branded"
@@ -49,7 +55,7 @@ except:
     fi
 
     ;;
-  
+
   *)
         echo "postinst called with unknown argument \`$1'" >&2
         exit 0
