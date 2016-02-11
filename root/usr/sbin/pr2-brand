@@ -2,7 +2,7 @@
 
 [[ -e /etc/slave ]] && {
     echo "You should only run pr2-brand on c1"
-    exit 1    
+    exit 1
 }
 
 [[ `id -u` == 0 ]] || {
@@ -11,36 +11,47 @@
 }
 
 [[ -z $1 || -z $2 || -z $3 || -z $4 ]] && {
-    echo "Usage: pr2-brand <ROBOT_NAME> <MASTER_NAME> <SLAVE_NAME> <BASESTATION_IP>"
+    echo "Usage: pr2-brand <ROBOT_NAME> <MASTER_NAME> <SLAVE_NAME> <NUC_NAME> <BASESTATION_IP> <BASESTATION_HOSTNAME>"
     exit 1
 }
 
 
 [[ $1 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
-    echo "Name must be valid hostnames."
+    echo "Name must be valid hostname."
     exit 1
 }
 
 [[ $2 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
-    echo "Name must be valid hostnames."
+    echo "Name must be valid hostname."
     exit 1
 }
 
 [[ $3 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
-    echo "Name must be valid hostnames."
+    echo "Name must be valid hostname."
     exit 1
 }
 
-[[ $4 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
-    echo "Basetation IP must be formatted as ip address."
+[[ $4 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
+    echo "Name must be valid hostname."
+    exit 1
+}
+
+[[ $5 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+    echo "Basetation IP must be formatted as IP address."
+    exit 1
+}
+
+[[ $6 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
+    echo "Name must be valid hostname."
     exit 1
 }
 
 ROBOT_NAME=$1
 MASTER_NAME=$2
 SLAVE_NAME=$3
-BASESTATION_IP=$4
-BASESTATION_HOSTNAME=$5
+NUC_NAME=$4
+BASESTATION_IP=$5
+BASESTATION_HOSTNAME=$6
 
 mkdir -p /etc/ros
 
@@ -78,6 +89,7 @@ s/10\.68\.0\.91(\s+\S+){1,2}/10\.68\.0\.91 c1-esms ${MASTER_NAME}-esms/;
 s/10\.68\.0\.2(\s+\S+){2,4}/10\.68\.0\.2 ${SLAVE_NAME} c2 c2-lan0 ${SLAVE_NAME}-lan0/;
 s/10\.68\.0\.12(\s+\S+){1,2}/10\.68\.0\.12 c2-lan1 ${SLAVE_NAME}-lan1/;
 s/10\.68\.0\.92(\s+\S+){1,2}/10\.68\.0\.92 c2-esms ${SLAVE_NAME}-esms/;
+s/10\.68\.0\.10(\s+\S+){2,4}/10\.68\.0\.10 ${MASTER_NAME} pr2-head ${NUC_NAME}/;
 s/10\.68\.255\.1\s+.*/10\.68\.255\.1 ${BASESTATION_HOSTNAME}/;
 s/^[^#]* basestation-novpn/${BASESTATION_IP} basestation-novpn/;
 " /etc/hosts > $TMPFILE
@@ -133,8 +145,25 @@ rm $TMPFILE
 # We set c2 hostname after we set up our authorized hosts so that we don't get prompted
 ssh c2 -o ConnectTimeout=5 hostname ${SLAVE_NAME} || true
 
-#Re-start sshd on both c1 and c2
+# Re-start sshd on both c1 and c2
 /etc/init.d/ssh restart
 ssh c2 -o ConnectTimeout=5 /etc/init.d/ssh restart || true
 
-
+# Add key to NUC
+if [[ -e ~/.ssh/id_rsa.pub ]];
+then
+  echo "~/.ssh/id_rsa.pub detected."
+  ssh-copy-id -i ~/.ssh/id_rsa.pub pr2-head@pr2-head
+else
+  read -r -p "~/.ssh/id_rsa.pub not detected. Do you want to set up your SSH keys? [y/N] " response
+  response = ${response,,}
+  if [[ $response =~ ^(yes|y)$ ]];
+  then
+    ssh-keygen -t rsa -N "" -f ~/.ssh/id_rsa
+    ssh-copy-id -i ~/.ssh/id_rsa.pub pr2-head@pr2-head
+    echo "RSA key has been generated at ~/.ssh/id_rsa.pub and exported to the NUC."
+  else
+    echo "SSH keys have not been set. If you already have SSH keys generated, please manually export your key to the NUC."
+    exit 1
+  fi
+fi
