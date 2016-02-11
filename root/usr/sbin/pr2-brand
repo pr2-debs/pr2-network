@@ -164,7 +164,7 @@ else
     ssh-copy-id -i ~/.ssh/id_rsa.pub pr2-head@pr2-head
     echo "RSA key has been generated at ~/.ssh/id_rsa.pub and exported to the NUC."
   else
-    echo "SSH keys have not been set. If you already have SSH keys generated, please manually export your key to the NUC."
+    echo "SSH keys have not been set. If you already have SSH keys generated, please manually export your key to the NUC using ssh-copy-id."
     exit 1
   fi
 fi
