@@ -154,6 +154,7 @@ if [[ -e ~/.ssh/id_rsa.pub ]];
 then
   echo "~/.ssh/id_rsa.pub detected."
   ssh-copy-id -i ~/.ssh/id_rsa.pub pr2-head@pr2-head
+  echo "SSH key added to NUC."
 else
   read -r -p "~/.ssh/id_rsa.pub not detected. Do you want to set up your SSH keys? [y/N] " response
   response = ${response,,}
