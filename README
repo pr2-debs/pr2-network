@@ -1,4 +1,6 @@
 Describes Setup and uses of PR2 internal Network.
 
-Changes for Indigo:
-- Removing ctr350 AP, using onboard Intel 7260
+The upgrade to Indigo removes the CTR350 AP to use the on-board on C1 Intel 7260 wireless card in AP mode.
+Hostapd is used to create the AP.  The AP (wlan0) is bridged with lan0 to be br0.
+The DHCP server listens on br0 for requests.
+Bridging the interface allows for seamless transition between wired and wireless using the DNS service provided by DNSMASQ.
