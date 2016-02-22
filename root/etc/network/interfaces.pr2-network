@@ -13,7 +13,7 @@ iface ecat0 inet manual
   up ifconfig $IFACE up
 
 # In case udev renaming failed, we still want to talk to the robot.
-auto eth0
+# auto eth0
 iface eth0 inet static
   address 10.68.0.1
   netmask 255.255.255.0
@@ -28,19 +28,27 @@ iface wan0 inet dhcp
 
 # The wap interface
 auto wlan0
-iface wlan0 inet static
-  address 10.68.0.250
-  netmask 255.255.255.0
-  gateway 10.68.0.5
-  metric 4
+#iface wlan0 inet static
+#  address 10.68.0.250
+#  netmask 255.255.255.0
+#  gateway 10.68.0.5
+#  metric 4
+
+auto br0
+iface br0 inet static
+  bridge_ports lan0 wlan0
+    address 10.68.0.1
+    netmask 255.255.255.0
+    gateway 10.68.0.5
+    metric 3
 
 # The four lan interfaces
 auto lan0
-iface lan0 inet static
-  address 10.68.0.1
-  netmask 255.255.255.0
-  gateway 10.68.0.5
-  metric 4
+#iface lan0 inet static
+#  address 10.68.0.1
+#  netmask 255.255.255.0
+#  gateway 10.68.0.5
+#  metric 4
 
 auto lan1
 iface lan1 inet static
@@ -48,7 +56,7 @@ iface lan1 inet static
   netmask 255.255.255.0
   metric 5
 
-#auto lan2
+auto lan2
 iface lan2 inet static
   address 10.68.0.21
   netmask 255.255.255.0
