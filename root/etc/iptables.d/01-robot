@@ -3,4 +3,4 @@
 #-t nat -A POSTROUTING -o ! lo -j MASQUERADE 
 -t nat -A POSTROUTING -o tun9 -j MASQUERADE 
 -t filter -A INPUT -i wan0 -m state --state ESTABLISHED -j ACCEPT
--t filter -A INPUT -i wan0 -j DROP
+#-t filter -A INPUT -i wan0 -j DROP
