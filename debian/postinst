@@ -46,11 +46,11 @@ try:
 except:
   print 'robot'
 """`
-        C1_NAME=`cat /etc/hostname`
-        C2_NAME=`cat /unionfs/overlay/etc/hostname`
+        C1_NAME="c1"
+        C2_NAME="c2"
         NUC_NAME="pr2-head"
-        BASESTATION_IP=`cat /tmp/pr2-network/BASESTATION_IP`
-        BASESTATION_HOSTNAME=`cat /tmp/pr2-network/BASESTATION_HOSTNAME`
+        BASESTATION_IP="10.68.255.1"
+        BASESTATION_HOSTNAME="basestation"
         echo Rebranding robot with: ${ROBOT_NAME} ${C1_NAME} ${C2_NAME} ${NUC_NAME} ${BASESTATION_IP} ${BASESTATION_HOSTNAME}
         pr2-brand ${ROBOT_NAME} ${C1_NAME} ${C2_NAME} ${NUC_NAME} ${BASESTATION_IP} ${BASESTATION_HOSTNAME}
     fi
