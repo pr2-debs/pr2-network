@@ -90,7 +90,7 @@ s/10\.68\.0\.91(\s+\S+){1,2}/10\.68\.0\.91 c1-esms ${MASTER_NAME}-esms/;
 s/10\.68\.0\.2(\s+\S+){2,4}/10\.68\.0\.2 ${SLAVE_NAME} c2 c2-lan0 ${SLAVE_NAME}-lan0/;
 s/10\.68\.0\.12(\s+\S+){1,2}/10\.68\.0\.12 c2-lan1 ${SLAVE_NAME}-lan1/;
 s/10\.68\.0\.92(\s+\S+){1,2}/10\.68\.0\.92 c2-esms ${SLAVE_NAME}-esms/;
-s/10\.68\.0\.10(\s+\S+){2,4}/10\.68\.0\.10 ${NUC_NAME} pr2-head;
+s/10\.68\.0\.10(\s+\S+){2,4}/10\.68\.0\.10 ${NUC_NAME} pr2-head/;
 s/10\.68\.255\.1\s+.*/10\.68\.255\.1 ${BASESTATION_HOSTNAME}/;
 s/^[^#]* basestation-novpn/${BASESTATION_IP} basestation-novpn/;
 " /etc/hosts > $TMPFILE
