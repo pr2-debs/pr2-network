@@ -148,4 +148,4 @@ ssh c2 -o ConnectTimeout=5 hostname ${SLAVE_NAME} || true
 /etc/init.d/ssh restart
 ssh c2 -o ConnectTimeout=5 /etc/init.d/ssh restart || true
 
-ssh pr2-head@pr2-head -t -o ConnectTimeout=5 'echo "${NUC_NAME}" > /etc/hostname | sed -i 's:pr2-head:${NUC_NAME}:i' /etc/hosts | hostname ${NUC_NAME}'
+ssh pr2-head@pr2-head -t -o ConnectTimeout=5 'sudo echo "${NUC_NAME}" > /etc/hostname | sudo sed -i 's:pr2-head:${NUC_NAME}:i' /etc/hosts | sudo hostname ${NUC_NAME}'
