@@ -10,8 +10,8 @@
     exit 1
 }
 
-[[ -z $1 || -z $2 || -z $3 || -z $4 || -z $5 || -z $6 ]] && {
-    echo "Usage: pr2-brand <ROBOT_NAME> <MASTER_NAME> <SLAVE_NAME> <NUC_NAME> <BASESTATION_IP> <BASESTATION_HOSTNAME>"
+[[ -z $1 || -z $2 || -z $3 || -z $4 || -z $5]] && {
+    echo "Usage: pr2-brand <ROBOT_NAME> <MASTER_NAME> <SLAVE_NAME> <BASESTATION_IP> <BASESTATION_HOSTNAME>"
     exit 1
 }
 
@@ -31,18 +31,12 @@
     exit 1
 }
 
-[[ $4 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
-    echo "Name must be valid hostname."
-    exit 1
-}
-
-[[ $5 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
+[[ $4 =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]] || {
     echo "Basestation IP must be formatted as IP address."
     exit 1
 }
 
-# Added because BASESTATION_HOSTNAME is a variable but not required by the script
-[[ $6 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
+[[ $5 =~ ^[a-zA-Z]+[a-zA-Z0-9\-]*$ ]] || {
     echo "Name must be valid hostname."
     exit 1
 }
@@ -50,9 +44,8 @@
 ROBOT_NAME=$1
 MASTER_NAME=$2
 SLAVE_NAME=$3
-NUC_NAME=$4
-BASESTATION_IP=$5
-BASESTATION_HOSTNAME=$6
+BASESTATION_IP=$4
+BASESTATION_HOSTNAME=$5
 
 mkdir -p /etc/ros
 
@@ -90,7 +83,6 @@ s/10\.68\.0\.91(\s+\S+){1,2}/10\.68\.0\.91 c1-esms ${MASTER_NAME}-esms/;
 s/10\.68\.0\.2(\s+\S+){2,4}/10\.68\.0\.2 ${SLAVE_NAME} c2 c2-lan0 ${SLAVE_NAME}-lan0/;
 s/10\.68\.0\.12(\s+\S+){1,2}/10\.68\.0\.12 c2-lan1 ${SLAVE_NAME}-lan1/;
 s/10\.68\.0\.92(\s+\S+){1,2}/10\.68\.0\.92 c2-esms ${SLAVE_NAME}-esms/;
-s/10\.68\.0\.10(\s+\S+){2,4}/10\.68\.0\.10 ${NUC_NAME} pr2-head/;
 s/10\.68\.255\.1\s+.*/10\.68\.255\.1 ${BASESTATION_HOSTNAME}/;
 s/^[^#]* basestation-novpn/${BASESTATION_IP} basestation-novpn/;
 " /etc/hosts > $TMPFILE
@@ -147,5 +139,3 @@ ssh c2 -o ConnectTimeout=5 hostname ${SLAVE_NAME} || true
 #Re-start sshd on both c1 and c2
 /etc/init.d/ssh restart
 ssh c2 -o ConnectTimeout=5 /etc/init.d/ssh restart || true
-
-ssh pr2-head@pr2-head -t -o ConnectTimeout=5 'sudo echo "${NUC_NAME}" > /etc/hostname | sudo sed -i 's:pr2-head:${NUC_NAME}:i' /etc/hosts | sudo hostname ${NUC_NAME}'
