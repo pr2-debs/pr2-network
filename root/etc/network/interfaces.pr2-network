@@ -18,7 +18,9 @@ iface eth0 inet static
   address 10.68.0.1
   netmask 255.255.255.0
   gateway 10.68.0.5
-  metric 4
+  metric 5
+
+auto br0 br0:0
 
 # The wan interface
 auto wan0
@@ -34,18 +36,17 @@ iface wlan0 inet static
   gateway 10.68.0.5
   metric 4
 
-#auto br0
-#iface br0 inet static
-#  bridge_ports lan0 wlan0
-#    address 10.68.0.1
-#    netmask 255.255.255.0
-#    gateway 10.68.0.5
-#    metric 3
+iface br0 inet static
+  bridge_ports lan0 wlan0
+    address 10.68.0.1
+    netmask 255.255.255.0
+    gateway 10.68.0.5
+    metric 3
 
 # The four lan interfaces
 auto lan0
 iface lan0 inet static
-  address 10.68.0.1
+  address 10.68.0.2
   netmask 255.255.255.0
   gateway 10.68.0.5
   metric 4
@@ -64,7 +65,7 @@ iface lan2 inet static
   metric 6
   post-up ip route del 10.68.0.0/24 dev lan2  proto kernel  scope link  src 10.68.0.21
 
-#auto lan3
+auto lan3
 iface lan3 inet static
   address 10.68.1.31
   netmask 255.255.255.0
