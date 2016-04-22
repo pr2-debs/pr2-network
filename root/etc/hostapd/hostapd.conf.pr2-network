@@ -1,10 +1,10 @@
 interface=wlan0
-bridge=br0
+#bridge=br0
 hw_mode=g
 channel=1
 ieee80211n=1
 #ieee80211ac=1
-
+driver=nl80211
 ssid=PR2-wireless
 auth_algs=1
 ignore_broadcast_ssid=0
@@ -12,3 +12,6 @@ wpa=2
 wpa_key_mgmt=WPA-PSK
 rsn_pairwise=CCMP
 wpa_passphrase=clearpath
+
+
+
